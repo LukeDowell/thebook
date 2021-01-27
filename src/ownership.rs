@@ -53,8 +53,9 @@ fn legal_calculate_length(s: &mut String) -> usize {
 }
 
 // Rust prevents dangling pointers, or references to locations in memory that no longer contain data
-fn dangle() -> &String {
-    // Once this function exits, s is dropped, and the returned pointer is invalid!
-    let s = String::from("hi!");
-    &s
-} // In this case, the solution would be to simply return the data, not a pointer to the data
+// The following code would throw an "expected named lifetime parameter" error at compilation time
+// fn dangle() -> &String {
+//     Once this function exits, s is dropped, and the returned pointer is invalid!
+//     let s = String::from("hi!");
+//     &s
+// } In this case, the solution would be to simply return the data, not a pointer to the data
