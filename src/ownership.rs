@@ -18,4 +18,43 @@ pub fn run() {
     // This kind of string can be mutated
     s.push_str(", world!");
     println!("{}", s);
+
+    // & is a reference, or a pointer, to an existing value
+    // They allow us to refer to the value without taking ownership of it
+    let s1 = String::from("hello");
+    let len = calculate_length(&s1);
+    println!("{}", s1); // s1 is still valid!
+
+    // Mutable reference
+    let mut s2 = String::from("mutable string");
+    let len2 = legal_calculate_length(&mut s2);
+
+    // You can only have one mutable reference to a particular piece of data in scope at a time
+    let r1 = &mut s2;
+    // This will fail!
+    // let r2 = &mut s2;
 }
+
+// Having a reference as a function param is called borrowing
+// The implication is that when the function is done, the parameter must be returned to the caller
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+
+// Attempting to mutate a borrowed parameter won't work
+// fn bad_calculate_length(s: &String) -> usize {
+//     s.push("illegal!")
+// }
+
+// Unless we mark the reference as mutable
+fn legal_calculate_length(s: &mut String) -> usize {
+    s.push_str("addendum!");
+    s.len()
+}
+
+// Rust prevents dangling pointers, or references to locations in memory that no longer contain data
+fn dangle() -> &String {
+    // Once this function exits, s is dropped, and the returned pointer is invalid!
+    let s = String::from("hi!");
+    &s
+} // In this case, the solution would be to simply return the data, not a pointer to the data
