@@ -2,7 +2,7 @@ pub fn run() {
     // In rust, either the entirety of a struct is mutable or it isn't
     struct User {
         name: String,
-        active: bool
+        active: bool,
     }
 
     let mut user1 = User {
@@ -15,7 +15,7 @@ pub fn run() {
     fn build_user(name: String) -> User {
         User {
             name,
-            active: false
+            active: false,
         }
     }
 
@@ -39,16 +39,17 @@ pub fn run() {
     example_structs_program();
 }
 
-fn example_structs_program() {
-    let width1 = 30;
-    let height1 = 50;
+#[derive(Debug)]
+struct Rectangle { width: u32, height: u32 }
 
-    println!(
-        "The area of the rectangle is {} square pixels.",
-        area(width1, height1)
-    );
+fn example_structs_program() {
+    let width = 30;
+    let height = 50;
+    let rect = Rectangle { width, height };
+
+    println!("rect is {:#?}", rect);
 }
 
-fn area(width: u32, height: u32) -> u32 {
-    width * height
+fn area(r: Rectangle) -> u32 {
+    r.width * r.height
 }
